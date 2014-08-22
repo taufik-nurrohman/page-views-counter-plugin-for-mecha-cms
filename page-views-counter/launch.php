@@ -100,7 +100,7 @@ Weapon::add('on_page_destruct', function($old_data, $new_data) {
  * -------------
  */
 
-Route::accept($config->manager->slug . '/plugin/page-views-counter/backup', function() use($config, $speak) {
+Route::accept($config->manager->slug . '/plugin/page-views-counter/backup', function() use($config) {
     if( ! Guardian::happy()) {
         Shield::abort();
     }

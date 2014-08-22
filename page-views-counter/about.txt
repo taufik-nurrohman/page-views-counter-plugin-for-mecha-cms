@@ -5,9 +5,9 @@ Version: 1.0.0
 
 ====
 
-> This plugin will count the number of your page views every time you visit the page. Only for articles and pages. 
+> This plugin will count the number of your page visits. Only applies to articles and pages.
 
-Your page views will not be counted if you&rsquo;re logged in.
+Your page visits will not be counted if you&rsquo;re logged in.
 
 The _Ranges_ field is used to add leading zeros as the value specified in the field. If the previous statistic shows the number of page views as **35 Page Views**, then after you put `5` on the field, the statistic will becomes **00035 Page Views**.
 

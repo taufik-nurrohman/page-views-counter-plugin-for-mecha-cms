@@ -5,7 +5,7 @@ Version: 1.0.0
 
 ====
 
-> Plugin ini akan menghitung jumlah tayangan halaman Anda setiap kali Anda membuka halaman tersebut. Hanya berlaku untuk halaman artikel dan halaman statis.
+> Plugin ini akan menghitung jumlah penayangan halaman Anda. Hanya berlaku untuk halaman artikel dan halaman statis.
 
 Penayangan halaman Anda tidak akan dihitung jika Anda sedang masuk (_logged in_).
 

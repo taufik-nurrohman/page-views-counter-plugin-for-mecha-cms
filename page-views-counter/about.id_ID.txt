@@ -1,0 +1,52 @@
+﻿Title: Penghitung Tayangan Halaman
+Author: Taufik Nurrohman
+URL: http://latitudu.com
+Version: 1.0.0
+
+====
+
+> Plugin ini akan menghitung jumlah tayangan halaman Anda setiap kali Anda membuka halaman tersebut. Hanya berlaku untuk halaman artikel dan halaman statis.
+
+Penayangan halaman Anda tidak akan dihitung jika Anda sedang masuk (_logged in_).
+
+Bidang _Rentang_ digunakan untuk menambahkan awalan berupa angka nol sebanyak nilai yang dicantumkan di dalam bidang tersebut. Jika sebelumnya statistik penayangan halaman menunjukkan angka **35 Penayangan**, maka setelah Anda memasukkan angka `5` ke dalam bidang tersebut, statistik penayangan halaman akan berubah menjadi **00035 Penayangan**.
+
+#### Pemasangan Widget
+
+Letakkan kode widget ini pada berkas `article.php`, `page.php` atau `index.php`:
+
+~~~ .php
+<?php echo Widget::pageViews('slug-artikel-atau-halaman-statis', 'Penayangan'); ?>
+~~~
+
+##### Contoh untuk `article.php`
+
+~~~ .html
+<footer class="post-footer">
+  <?php echo Widget::pageViews($article->slug, 'Penayangan'); ?>
+</footer>
+~~~
+
+##### Contoh untuk `page.php`
+
+~~~ .html
+<footer class="post-footer">
+  <?php echo Widget::pageViews($page->slug, 'Penayangan'); ?>
+</footer>
+~~~
+
+##### Contoh untuk `index.php`
+
+~~~ .html
+<?php foreach($articles as $article): ?>
+
+…
+
+<footer class="post-footer">
+  <?php echo Widget::pageViews($article->slug, 'Penayangan'); ?>
+</footer>
+
+…
+
+<?php endforeach; ?>
+~~~

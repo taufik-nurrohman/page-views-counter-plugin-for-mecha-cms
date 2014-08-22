@@ -1,0 +1,52 @@
+﻿Title: Page Views Counter
+Author: Taufik Nurrohman
+URL: http://latitudu.com
+Version: 1.0.0
+
+====
+
+> This plugin will count the number of your page views every time you visit the page. Only for articles and pages. 
+
+Your page views will not be counted if you&rsquo;re logged in. 
+
+The _Ranges_ field is used to add leading zeros as the value specified in the field. If the previous statistic shows the number of page views as **35 Page Views**, then after you put `5` on the field, the statistic will becomes **00035 Page Views**.
+
+#### Widget Installation
+
+Put this widget code on your `article.php`, `page.php` or `index.php` file:
+
+~~~ .php
+<?php echo Widget::pageViews('article-or-page-slug', 'Views'); ?>
+~~~
+
+##### Example for `article.php`
+
+~~~ .html
+<footer class="post-footer">
+  <?php echo Widget::pageViews($article->slug, 'Views'); ?>
+</footer>
+~~~
+
+##### Example for `page.php`
+
+~~~ .html
+<footer class="post-footer">
+  <?php echo Widget::pageViews($page->slug, 'Views'); ?>
+</footer>
+~~~
+
+##### Example for `index.php`
+
+~~~ .html
+<?php foreach($articles as $article): ?>
+
+…
+
+<footer class="post-footer">
+  <?php echo Widget::pageViews($article->slug, 'Views'); ?>
+</footer>
+
+…
+
+<?php endforeach; ?>
+~~~

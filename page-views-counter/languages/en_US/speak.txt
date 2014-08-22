@@ -1,0 +1,2 @@
+plugin_page_views_title_ranges: Ranges
+plugin_page_views_title_css: <abbr title="Cascade Style Sheet">CSS</abbr>

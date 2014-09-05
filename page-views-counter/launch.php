@@ -94,6 +94,15 @@ Weapon::add('on_page_destruct', function($old_data, $new_data) {
     File::open(PLUGIN . DS . 'page-views-counter' . DS . 'cargo' . DS . 'pages' . DS . $old_data['data']['slug'] . '.txt')->delete();
 });
 
+// Show total page views in article and page manager
+if(preg_match('#^' . $config->url . '\/' . $config->manager->slug . '\/(article|page)#', $config->url_current, $matches)) {
+    Weapon::add($matches[1] . '_footer', function($page) use($config, $matches) {
+        $path = PLUGIN . DS . 'page-views-counter' . DS . 'cargo' . DS . $matches[1] . 's' . DS . $page->slug . '.txt';
+        $total = File::exist($path) ? (int) File::open($path)->read() : 0;
+        echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . $total . ' <i class="fa fa-eye"></i></span> &middot; ';
+    }, 10);
+}
+
 
 /**
  * Create Backup

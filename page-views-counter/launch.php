@@ -113,7 +113,7 @@ Route::accept($config->manager->slug . '/plugin/page-views-counter/backup', func
     if( ! Guardian::happy()) {
         Shield::abort();
     }
-    $name = Text::parse($config->title)->to_slug . '.plugin.page-views-counter.cargo_' . date('Y-m-d-H-i-s') . '.zip';
+    $name = Text::parse($config->title)->to_slug . '.cabinet.plugins.page-views-counter.cargo_' . date('Y-m-d-H-i-s') . '.zip';
     Package::take(PLUGIN . DS . 'page-views-counter' . DS . 'cargo')->pack(ROOT . DS . $name);
     Guardian::kick($config->manager->slug . '/backup/send:' . $name);
 });

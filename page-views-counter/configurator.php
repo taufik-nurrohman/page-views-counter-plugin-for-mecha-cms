@@ -2,8 +2,8 @@
   <input name="token" type="hidden" value="<?php echo $token; ?>">
   <?php
 
-  $page_views_config = File::open(PLUGIN . DS . 'page-views-counter' . DS . 'states' . DS . 'config.txt')->unserialize();
-  $page_views_css = File::open(PLUGIN . DS . 'page-views-counter' . DS . 'shell' . DS . 'counter.css')->read();
+  $page_views_config = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'states' . DS . 'config.txt')->unserialize();
+  $page_views_css = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'shell' . DS . 'counter.css')->read();
 
   ?>
   <label class="grid-group">
@@ -16,6 +16,6 @@
   </label>
   <div class="grid-group">
     <span class="grid span-1"></span>
-    <span class="grid span-5"><button class="btn btn-action" type="submit"><i class="fa fa-check-circle"></i> <?php echo $speak->update; ?></button> <a class="btn btn-construct" href="<?php echo $config->url . '/' . $config->manager->slug; ?>/plugin/page-views-counter/backup"><i class="fa fa-download"></i> Create Backup</a></span>
+    <span class="grid span-5"><button class="btn btn-action" type="submit"><i class="fa fa-check-circle"></i> <?php echo $speak->update; ?></button> <a class="btn btn-construct" href="<?php echo $config->url . '/' . $config->manager->slug; ?>/plugin/<?php echo basename(__DIR__); ?>/backup"><i class="fa fa-download"></i> <?php echo $speak->plugin_page_views_title_create_backup; ?></a></span>
   </div>
 </form>

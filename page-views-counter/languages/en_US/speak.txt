@@ -1,3 +1,4 @@
 plugin_page_views_title_ranges: Ranges
-plugin_page_views_title_css: <abbr title="Cascade Style Sheet">CSS</abbr>
+plugin_page_views_title_css: <abbr title="Cascading Style Sheet">CSS</abbr>
 plugin_page_views_title_views: Views
+plugin_page_views_title_create_backup: Create Backup

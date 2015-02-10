@@ -15,7 +15,7 @@ $page_views_config = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'states' 
  */
 
 Weapon::add('shell_after', function() use($config) {
-    echo Asset::stylesheet($config->url . '/cabinet/plugins/' . basename(__DIR__) . '/shell/counter.css');
+    echo Asset::stylesheet('cabinet/plugins/' . basename(__DIR__) . '/shell/counter.css');
 });
 
 
@@ -24,19 +24,25 @@ Weapon::add('shell_after', function() use($config) {
  * ------------------------------
  *
  * [1]. Widget::pageViews('article-slug', 'Page Views') // For article pages
- * [1]. Widget::pageViews('page-slug', 'Page Views') // For static pages
+ * [2]. Widget::pageViews('page-slug', 'Page Views') // For static pages
+ * [3]. Widget::pageViews('new-folder/page-slug', 'Page Views') // For custom pages
  *
  */
 
-Widget::add('pageViews', function($slug = null, $text = 'Page Views') use($page_views_config) {
+Widget::add('pageViews', function($slug = "", $text = 'Page Views') use($page_views_config) {
     $config = Config::get();
     $speak = Config::speak();
     $ranges = (int) $page_views_config['ranges'];
-    if(is_null($slug) || ! isset($slug)) return '? ' . $text;
-    $is_article_or_page = $config->page_type == 'page' ? 'pages' : 'articles';
-    $file = PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . $is_article_or_page . DS . $slug . '.txt';
-    $views = File::exist($file) ? File::open($file)->read() : 0;
-    $views = trim($ranges) !== "" ? sprintf("%0" . $ranges . "d", $views) : $views;
+    $slug = str_replace('/', DS, $slug);
+    if($config->page_type == 'article') {
+        $path = 'articles' . DS . $slug . '.txt';
+    } elseif($config->page_type == 'page') {
+        $path = 'pages' . DS . $slug . '.txt';
+    } else {
+        $path = $slug . '.txt';
+    }
+    $views = (string) File::open(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . $path)->read('0');
+    $views = trim($ranges) !== "" ? sprintf('%0' . $ranges . 'd', $views) : $views;
     $views_html = "";
     $views_number = str_split($views, 1);
     $position = 1;
@@ -55,53 +61,59 @@ Widget::add('pageViews', function($slug = null, $text = 'Page Views') use($page_
 
 Weapon::add('shield_before', function() {
     $config = Config::get();
-    $is_article_or_page = $config->page_type == 'page' ? 'pages' : 'articles';
-    if($is_article_or_page == 'articles') {
-        $slug = isset($config->article->slug) ? $config->article->slug : false;
+    if($config->page_type == 'article' && isset($config->article->slug)) {
+        $path = 'articles' . DS . $config->article->slug . '.txt';
+    } elseif($config->page_type == 'page' && isset($config->page->slug)) {
+        $path = 'pages' . DS . $config->page->slug . '.txt';
     } else {
-        $slug = isset($config->page->slug) ? $config->page->slug : false;
+        $path = str_replace('/', DS, $config->url_path) . '.txt';
     }
-    if($slug !== false) {
-        $file = PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . $is_article_or_page . DS . $slug . '.txt';
-        $total_old = File::exist($file) ? (int) File::open($file)->read() : 0;
-        if( ! Guardian::happy()) {
-            File::write($total_old + 1)->saveTo($file, 0600);
-        }
+    $file = PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . ($path === '.txt' ? Text::parse($config->host, '->slug_moderate') . '.txt' : $path);
+    $total_old = (int) File::open($file)->read(0);
+    if( ! Guardian::happy() && $config->page_type != '404') {
+        File::write($total_old + 1)->saveTo($file, 0600);
     }
 });
 
-// Rename file when the article slug is changed
+// Rename file on article slug change
 Weapon::add('on_article_update', function($old_data, $new_data) {
     if($new_data['data']['slug'] !== $old_data['data']['slug'] && $file = File::exist(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'articles' . DS . $old_data['data']['slug'] . '.txt')) {
         File::open($file)->renameTo($new_data['data']['slug'] . '.txt');
     }
 });
 
-// Rename file when the page slug is changed
+// Rename file on page slug change
 Weapon::add('on_page_update', function($old_data, $new_data) {
     if($new_data['data']['slug'] !== $old_data['data']['slug'] && $file = File::exist(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'pages' . DS . $old_data['data']['slug'] . '.txt')) {
         File::open($file)->renameTo($new_data['data']['slug'] . '.txt');
     }
 });
 
-// Delete file when the article is deleted
+// Delete file on article destruct
 Weapon::add('on_article_destruct', function($old_data, $new_data) {
     File::open(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'articles' . DS . $old_data['data']['slug'] . '.txt')->delete();
 });
 
-// Delete file when the page is deleted
+// Delete file on page destruct
 Weapon::add('on_page_destruct', function($old_data, $new_data) {
     File::open(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'pages' . DS . $old_data['data']['slug'] . '.txt')->delete();
 });
 
-// Show total page views in article and page manager
-if(preg_match('#^' . $config->url . '\/' . $config->manager->slug . '\/(article|page)#', $config->url_current, $matches)) {
-    Weapon::add($matches[1] . '_footer', function($page) use($config, $matches) {
-        $path = PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . $matches[1] . 's' . DS . $page->slug . '.txt';
-        $total = File::exist($path) ? (int) File::open($path)->read() : 0;
+// Show total page views in article manager page
+Weapon::add('article_footer', function($article) use($config) {
+    if($config->page_type == 'manager') {
+        $total = (int) File::open(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'articles' . DS . $article->slug . '.txt')->read(0);
         echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . $total . ' <i class="fa fa-eye"></i></span> &middot; ';
-    }, 10);
-}
+    }
+}, 10);
+
+// Show total page views in page manager page
+Weapon::add('page_footer', function($page) use($config) {
+    if($config->page_type == 'manager') {
+        $total = (int) File::open(PLUGIN . DS . basename(__DIR__) . DS . 'cargo' . DS . 'pages' . DS . $page->slug . '.txt')->read(0);
+        echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . $total . ' <i class="fa fa-eye"></i></span> &middot; ';
+    }
+}, 10);
 
 
 /**
@@ -113,7 +125,7 @@ Route::accept($config->manager->slug . '/plugin/' . basename(__DIR__) . '/backup
     if( ! Guardian::happy()) {
         Shield::abort();
     }
-    $name = Text::parse($config->title)->to_slug . '.cabinet.plugins.' . basename(__DIR__) . '.cargo_' . date('Y-m-d-H-i-s') . '.zip';
+    $name = Text::parse($config->title, '->slug') . '.cabinet.plugins.' . basename(__DIR__) . '.cargo_' . date('Y-m-d-H-i-s') . '.zip';
     Package::take(PLUGIN . DS . basename(__DIR__) . DS . 'cargo')->pack(ROOT . DS . $name);
     Guardian::kick($config->manager->slug . '/backup/send:' . $name);
 });

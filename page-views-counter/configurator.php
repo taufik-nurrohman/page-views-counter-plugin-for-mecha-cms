@@ -1,5 +1,5 @@
 <form class="form-plugin" action="<?php echo $config->url_current; ?>/update" method="post">
-  <input name="token" type="hidden" value="<?php echo $token; ?>">
+  <?php echo Form::hidden('token', $token); ?>
   <?php
 
   $page_views_config = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'states' . DS . 'config.txt')->unserialize();
@@ -8,14 +8,14 @@
   ?>
   <label class="grid-group">
     <span class="grid span-1 form-label"><?php echo $speak->plugin_page_views_title_css; ?></span>
-    <span class="grid span-5"><textarea name="css" class="textarea-block code"><?php echo Text::parse(Guardian::wayback('css', $page_views_css), '->encoded_html'); ?></textarea></span>
+    <span class="grid span-5"><?php echo Form::textarea('css', $page_views_css, null, array('class' => array('textarea-block', 'code'))); ?></span>
   </label>
   <label class="grid-group">
     <span class="grid span-1 form-label"><?php echo $speak->plugin_page_views_title_ranges; ?></span>
-    <span class="grid span-5"><input name="ranges" type="number" value="<?php echo Guardian::wayback('ranges', $page_views_config['ranges']); ?>"></span>
+    <span class="grid span-5"><?php echo Form::number('ranges', $page_views_config['ranges']); ?></span>
   </label>
   <div class="grid-group">
     <span class="grid span-1"></span>
-    <span class="grid span-5"><button class="btn btn-action" type="submit"><i class="fa fa-check-circle"></i> <?php echo $speak->update; ?></button> <a class="btn btn-construct" href="<?php echo $config->url . '/' . $config->manager->slug; ?>/plugin/<?php echo basename(__DIR__); ?>/backup"><i class="fa fa-download"></i> <?php echo $speak->plugin_page_views_title_create_backup; ?></a></span>
+    <span class="grid span-5"><?php echo Jot::button('action', $speak->update) . (file_exists(PLUGIN . DS . basename(__DIR__) . DS . 'cargo') ? ' ' . Jot::btn('construct:download', $speak->plugin_page_views_title_create_backup, $config->manager->slug . '/plugin/' . basename(__DIR__) . '/backup') : ""); ?></span>
   </div>
 </form>

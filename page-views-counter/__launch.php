@@ -43,9 +43,6 @@ Weapon::add('page_footer', function($page) use($config) {
  */
 
 Route::accept($config->manager->slug . '/plugin/' . basename(__DIR__) . '/backup', function() use($config) {
-    if( ! Guardian::happy()) {
-        Shield::abort();
-    }
     $name = Text::parse($config->title, '->slug') . '.cabinet.plugins.' . basename(__DIR__) . '.cargo_' . date('Y-m-d-H-i-s') . '.zip';
     Package::take(PLUGIN . DS . basename(__DIR__) . DS . 'cargo')->pack(ROOT . DS . $name);
     Guardian::kick($config->manager->slug . '/backup/send:' . $name);
@@ -58,9 +55,6 @@ Route::accept($config->manager->slug . '/plugin/' . basename(__DIR__) . '/backup
  */
 
 Route::accept($config->manager->slug . '/plugin/' . basename(__DIR__) . '/update', function() use($config, $speak) {
-    if( ! Guardian::happy()) {
-        Shield::abort();
-    }
     if($request = Request::post()) {
         Guardian::checkToken($request['token']);
         File::write($request['css'])->saveTo(PLUGIN . DS . basename(__DIR__) . DS . 'shell' . DS . 'counter.css');

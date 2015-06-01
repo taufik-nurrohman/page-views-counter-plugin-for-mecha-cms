@@ -53,7 +53,7 @@ Put this widget code in your `article.php`, `page.php` or `index.php` file:
 
 #### Advanced
 
-Now you can display the page views statistics data that are stored in a folder other than `cargo\articles` and `cargo\pages` by entering the name of the folders in the `$slug` parameter:
+Now you can display the page views statistic data that are stored in a folder other than `cargo\articles` and `cargo\pages` by entering the name of the folders in the `$slug` parameter:
 
 ~~~ .php
 echo Widget::pageViews('2015/02/10/page-slug', 'Views');
@@ -63,10 +63,10 @@ This plugin will automatically stores the page views data of your custom pages (
 
 ~~~ .no-highlight
 cargo
-├── 2015/
-│   └── 02/
-│       └── 10/
-│           └── page-slug.txt
+├── __2015/
+│   └── __02/
+│       └── __10/
+│           └── __page-slug.txt
 ├── articles/
 └── pages/
 ~~~

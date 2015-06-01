@@ -63,10 +63,10 @@ Plugin ini akan secara otomatis menyimpan data-data statistik tayangan halaman k
 
 ~~~ .no-highlight
 cargo
-├── 2015/
-│   └── 02/
-│       └── 10/
-│           └── slug-halaman.txt
+├── __2015/
+│   └── __02/
+│       └── __10/
+│           └── __slug-halaman.txt
 ├── articles/
 └── pages/
 ~~~

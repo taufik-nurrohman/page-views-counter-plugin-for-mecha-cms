@@ -36,7 +36,7 @@ Widget::add('pageViews', function($slug = "", $text = 'Page Views') use($page_vi
     $slug = File::path($slug);
     if($config->page_type === 'article') {
         $path = 'articles' . DS . $slug . '.txt';
-    } elseif($config->page_type === 'page') {
+    } else if($config->page_type === 'page') {
         $path = 'pages' . DS . $slug . '.txt';
     } else {
         $path = '__' . str_replace(array(DS, ':'), array(DS . '__', '--'), $slug) . '.txt';
@@ -63,7 +63,7 @@ Weapon::add('shield_before', function() {
     $config = Config::get();
     if($config->page_type === 'article' && isset($config->article->slug)) {
         $path = 'articles' . DS . $config->article->slug . '.txt';
-    } elseif($config->page_type === 'page' && isset($config->page->slug)) {
+    } else if($config->page_type === 'page' && isset($config->page->slug)) {
         $path = 'pages' . DS . $config->page->slug . '.txt';
     } else {
         $path = '__' . str_replace(array(DS, ':'), array(DS . '__', '--'), File::path($config->url_path)) . '.txt';

@@ -34,7 +34,14 @@ Widget::add('pageViews', function($slug = "", $text = 'Page Views') use($page_vi
     $speak = Config::speak();
     $ranges = (int) $page_views_config['ranges'];
     $slug = File::path($slug);
-    if($config->page_type === 'article') {
+    if(
+        $config->page_type === 'article' ||
+        $config->page_type === 'index' ||
+        $config->page_type === 'tag' ||
+        $config->page_type === 'archive' ||
+        $config->page_type === 'search' ||
+        $config->page_type === 'home'
+    ) {
         $path = 'articles' . DS . $slug . '.txt';
     } else if($config->page_type === 'page') {
         $path = 'pages' . DS . $slug . '.txt';

@@ -1,7 +1,7 @@
 Title: Penghitung Tayangan Halaman
 Author: Taufik Nurrohman
 URL: http://latitudu.com
-Version: 1.1.0
+Version: 1.1.1
 
 ====
 

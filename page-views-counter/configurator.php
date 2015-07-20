@@ -2,8 +2,8 @@
   <?php echo Form::hidden('token', $token); ?>
   <?php
 
-  $page_views_config = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'states' . DS . 'config.txt')->unserialize();
-  $page_views_css = File::open(PLUGIN . DS . basename(__DIR__) . DS . 'shell' . DS . 'counter.css')->read();
+  $page_views_config = File::open(PLUGIN . DS . File::B(__DIR__) . DS . 'states' . DS . 'config.txt')->unserialize();
+  $page_views_css = File::open(PLUGIN . DS . File::B(__DIR__) . DS . 'assets' . DS . 'shell' . DS . 'counter.css')->read();
 
   ?>
   <label class="grid-group">
@@ -16,6 +16,6 @@
   </label>
   <div class="grid-group">
     <span class="grid span-1"></span>
-    <span class="grid span-5"><?php echo Jot::button('action', $speak->update) . (file_exists(PLUGIN . DS . basename(__DIR__) . DS . 'cargo') ? ' ' . Jot::btn('construct:download', $speak->plugin_page_views_title_create_backup, $config->manager->slug . '/plugin/' . basename(__DIR__) . '/backup') : ""); ?></span>
+    <span class="grid span-5"><?php echo Jot::button('action', $speak->update) . (file_exists(PLUGIN . DS . File::B(__DIR__) . DS . 'assets' . DS . 'cargo') ? ' ' . Jot::btn('construct:download', $speak->plugin_page_views_title_create_backup, $config->manager->slug . '/plugin/' . File::B(__DIR__) . '/backup') : ""); ?></span>
   </div>
 </form>

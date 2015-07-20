@@ -8,7 +8,7 @@
   ?>
   <label class="grid-group">
     <span class="grid span-1 form-label"><?php echo $speak->plugin_page_views_title_css; ?></span>
-    <span class="grid span-5"><?php echo Form::textarea('css', $page_views_css, null, array('class' => array('textarea-block', 'code'))); ?></span>
+    <span class="grid span-5"><?php echo Form::textarea('css', $page_views_css, null, array('class' => array('textarea-block', 'textarea-expand', 'code'))); ?></span>
   </label>
   <label class="grid-group">
     <span class="grid span-1 form-label"><?php echo $speak->plugin_page_views_title_ranges; ?></span>

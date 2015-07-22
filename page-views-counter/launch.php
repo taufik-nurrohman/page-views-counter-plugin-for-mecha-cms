@@ -34,7 +34,7 @@ Widget::add('pageViews', function($slug = "", $text = 'Views') use($page_views_c
     $speak = Config::speak();
     $ranges = (int) $page_views_config['ranges'];
     $slug = str_replace(array(DS, ':'), array(DS . '__', '--'), File::path($slug));
-    if(Text::check($config->page_type)->is(array('article', 'index', 'tag', 'archive', 'search', 'home'))) {
+    if(Text::check($config->page_type)->in(array('article', 'index', 'tag', 'archive', 'search', 'home'))) {
         $path = 'articles' . DS . $slug . '.txt';
     } else if($config->page_type === 'page') {
         $path = 'pages' . DS . $slug . '.txt';
@@ -61,7 +61,7 @@ Widget::add('pageViews', function($slug = "", $text = 'Views') use($page_views_c
 
 Weapon::add('shield_before', function() {
     $config = Config::get();
-    if( ! Guardian::happy() && ! Text::check($config->page_type)->is(array('manager', '404')) && $config->offset === 1) {
+    if( ! Guardian::happy() && ! Text::check($config->page_type)->in(array('manager', '404')) && $config->offset === 1) {
         if($config->page_type === 'article' && isset($config->article->slug)) {
             $path = 'articles' . DS . $config->article->slug . '.txt';
         } else if($config->page_type === 'page' && isset($config->page->slug)) {

@@ -9,7 +9,7 @@ Version: 1.2.0
 
 Your page visits will not be counted if you&rsquo;re logged in.
 
-The _Ranges_ field is used for adding leading zeros as the value specified in the field. If the previous statistic shows the number of page views as **35 Page Views**, then after you put `5` on the field, the statistic will becomes **00035 Page Views**.
+The _Ranges_ field is used to add leading zeros as much as the value specified in the field. If the previous statistic shows the number of page views as **35 Page Views**, then after you put `5` on the field, the statistic will becomes **00035 Page Views**.
 
 #### Widget Installation
 
@@ -53,7 +53,7 @@ Put this widget code in your `article.php`, `page.php` or `index.php` file:
 
 #### Advanced
 
-Now you can display the page views statistic data that are stored in a folder other than `cargo\articles` and `cargo\pages` by entering the name of the folders in the `$slug` parameter:
+Now you can display the page views statistic data that are stored in a folder other than `assets\cargo\articles` and `assets\cargo\pages` by entering the name of the folders in the `$slug` parameter:
 
 ~~~ .php
 echo Widget::pageViews('2015/02/10/page-slug', 'Views');

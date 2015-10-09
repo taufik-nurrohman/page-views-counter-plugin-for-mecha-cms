@@ -25,15 +25,15 @@ Weapon::add('on_page_destruct', function($old_data, $new_data) {
 });
 
 // Show total page views in article manager page
-Weapon::add('article_footer', function($article) use($config) {
+Weapon::add('article_footer', function($article) {
     $total = (int) File::open(PLUGIN . DS . File::B(__DIR__) . DS . 'assets' . DS . 'cargo' . DS . 'articles' . DS . $article->slug . '.txt')->read(0);
-    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . $total . ' ' . Jot::icon('eye') . '</span> &middot; ';
+    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
 }, 10);
 
 // Show total page views in page manager page
-Weapon::add('page_footer', function($page) use($config) {
+Weapon::add('page_footer', function($page) {
     $total = (int) File::open(PLUGIN . DS . File::B(__DIR__) . DS . 'assets' . DS . 'cargo' . DS . 'pages' . DS . $page->slug . '.txt')->read(0);
-    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . $total . ' ' . Jot::icon('eye') . '</span> &middot; ';
+    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
 }, 10);
 
 

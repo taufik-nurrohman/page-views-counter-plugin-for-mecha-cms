@@ -53,7 +53,7 @@ Letakkan kode widget ini pada berkas `article.php`, `page.php` atau `index.php`:
 
 #### Tingkat Lanjut
 
-Sekarang Anda bisa menampilkan data statistik tayangan halaman Anda yang tersimpan di dalam folder selain `cargo\articles` dan `cargo\pages` dengan cara memasukkan nama-nama folder tersebut pada parameter `$slug`:
+Sekarang Anda bisa menampilkan data statistik tayangan halaman Anda yang tersimpan di dalam folder selain `assets\cargo\articles` dan `assets\cargo\pages` dengan cara memasukkan nama-nama folder tersebut pada parameter `$slug`:
 
 ~~~ .php
 echo Widget::pageViews('2015/02/10/slug-halaman', 'Penayangan');

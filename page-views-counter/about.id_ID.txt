@@ -53,22 +53,23 @@ Letakkan kode widget ini pada berkas `article.php`, `page.php` atau `index.php`:
 
 #### Tingkat Lanjut
 
-Sekarang Anda bisa menampilkan data statistik tayangan halaman Anda yang tersimpan di dalam folder selain `assets\cargo\articles` dan `assets\cargo\pages` dengan cara memasukkan nama-nama folder tersebut pada parameter `$slug`:
+Sekarang Anda bisa menampilkan data statistik tayangan halaman Anda yang tersimpan di dalam folder selain `assets\lot\posts\article` dan `assets\lot\posts\page` dengan cara memasukkan nama-nama folder tersebut pada parameter `$slug`:
 
 ~~~ .php
 echo Widget::pageViews('2015/02/10/slug-halaman', 'Penayangan');
 ~~~
 
-Plugin ini akan secara otomatis menyimpan data-data statistik tayangan halaman kustom Anda (jika ada). Sebagai contoh, jika Anda memiliki halaman publik baru dengan alamat menuju ` {{url}}2015/02/10/slug-halaman `, maka plugin ini dapat secara otomatis membuatkan folder-folder baru di dalam folder `cargo` untuk menyimpan data-data statistik halaman tersebut dengan cara menggunakan panduan dari URL halaman tersebut:
+Plugin ini akan secara otomatis menyimpan data-data statistik tayangan halaman kustom Anda (jika ada). Sebagai contoh, jika Anda memiliki halaman publik baru dengan alamat menuju ` {{url}}2015/02/10/slug-halaman `, maka plugin ini dapat secara otomatis membuatkan folder-folder baru di dalam folder `lot` untuk menyimpan data-data statistik halaman tersebut dengan cara menggunakan panduan dari URL halaman tersebut:
 
 ~~~ .no-highlight
-cargo
+lot
 ├── __2015/
 │   └── __02/
 │       └── __10/
 │           └── __slug-halaman.txt
-├── articles/
-└── pages/
+└── posts/
+    ├── article/
+    └── page/
 ~~~
 
 <!-- block:donate -->

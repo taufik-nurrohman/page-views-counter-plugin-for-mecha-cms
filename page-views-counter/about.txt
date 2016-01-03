@@ -53,22 +53,23 @@ Put this widget code in your `article.php`, `page.php` or `index.php` file:
 
 #### Advanced
 
-Now you can display the page views statistic data that are stored in a folder other than `assets\cargo\articles` and `assets\cargo\pages` by entering the name of the folders in the `$slug` parameter:
+Now you can display the page views statistic data that are stored in a folder other than `assets\lot\posts\article` and `assets\lot\posts\page` by entering the name of the folders in the `$slug` parameter:
 
 ~~~ .php
 echo Widget::pageViews('2015/02/10/page-slug', 'Views');
 ~~~
 
-This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address ` {{url}}2015/02/10/page-slug `, then this plugin will automatically creates new folders in the `cargo` folder for storing the page views statistics by using the guidelines of the page URL:
+This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address ` {{url}}2015/02/10/page-slug `, then this plugin will automatically creates new folders in the `lot` folder for storing the page views statistics by using the guidelines of the page URL:
 
 ~~~ .no-highlight
-cargo
+lot
 ├── __2015/
 │   └── __02/
 │       └── __10/
 │           └── __page-slug.txt
-├── articles/
-└── pages/
+└── posts/
+    ├── article/
+    └── page/
 ~~~
 
 <!-- block:donate -->

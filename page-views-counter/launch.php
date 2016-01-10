@@ -15,7 +15,7 @@ $page_views_config = File::open(__DIR__ . DS . 'states' . DS . 'config.txt')->un
  */
 
 Weapon::add('shell_after', function() use($config) {
-    echo Asset::stylesheet(__DIR__ . '/assets/shell/counter.css');
+    echo Asset::stylesheet(__DIR__ . DS . 'assets' . DS . 'shell' . DS . 'counter.css');
 });
 
 
@@ -25,23 +25,24 @@ Weapon::add('shell_after', function() use($config) {
  *
  * [1]. Widget::pageViews('article-slug', 'Views') // For article pages
  * [2]. Widget::pageViews('page-slug', 'Views') // For static pages
- * [3]. Widget::pageViews('new-folder/page-slug', 'Views') // For custom pages
+ * [3]. Widget::pageViews('foo/bar/page-slug', 'Views') // For custom pages
  *
  */
 
-Widget::add('pageViews', function($slug = "", $text = 'Views') use($page_views_config) {
+Widget::add('pageViews', function($slug = "", $text = null) use($speak, $page_views_config) {
     $config = Config::get();
     $speak = Config::speak();
+    if(is_null($text)) $text = $speak->plugin_page_views_title_views;
     $ranges = (int) $page_views_config['ranges'];
     $slug = str_replace(array(DS, ':'), array(DS . '__', '--'), File::path($slug));
-    if(Text::check($config->page_type)->in(array('article', 'index', 'tag', 'archive', 'search', 'home'))) {
+    if(Mecha::walk(array('article', 'index', 'tag', 'archive', 'search', 'home'))->has($config->page_type)) {
         $path = 'posts' . DS . 'article' . DS . $slug . '.txt';
     } else if($config->page_type === 'page') {
         $path = 'posts' . DS . 'page' . DS . $slug . '.txt';
     } else {
         $path = '__' . $slug . '.txt';
     }
-    $views = (string) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . $path)->read('0');
+    $views = (string) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . $path)->read(0);
     $views = trim($ranges) !== "" ? sprintf('%0' . $ranges . 'd', $views) : $views;
     $views_html = "";
     $views_count = str_split($views, 1);
@@ -61,7 +62,7 @@ Widget::add('pageViews', function($slug = "", $text = 'Views') use($page_views_c
 
 Weapon::add('shield_before', function() {
     $config = Config::get();
-    if( ! Guardian::happy() && ! Text::check($config->page_type)->in(array('manager', '404')) && $config->offset === 1) {
+    if( ! Guardian::happy() && ! Mecha::walk(array('manager', '404'))->has($config->page_type) && $config->offset === 1) {
         if($config->page_type === 'article' && isset($config->article->slug)) {
             $path = 'posts' . DS . 'article' . DS . $config->article->slug . '.txt';
         } else if($config->page_type === 'page' && isset($config->page->slug)) {

@@ -1,39 +1,25 @@
 <?php
 
-// Rename file on article slug change
-Weapon::add('on_article_update', function($old_data, $new_data) {
-    if($new_data['data']['slug'] !== $old_data['data']['slug'] && $file = File::exist(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'article' . DS . $old_data['data']['slug'] . '.txt')) {
-        File::open($file)->renameTo($new_data['data']['slug'] . '.txt');
+// Rename file on article/page slug change
+Weapon::add(array('on_article_update', 'on_page_update'), function($G, $P) use($segment) {
+    $G = $G['data']['slug'];
+    $P = $P['data']['slug'];
+    if($P !== $G && $file = File::exist(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $G . '.txt')) {
+        File::open($file)->renameTo($P . '.txt');
     }
 });
 
-// Rename file on page slug change
-Weapon::add('on_page_update', function($old_data, $new_data) {
-    if($new_data['data']['slug'] !== $old_data['data']['slug'] && $file = File::exist(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'page' . DS . $old_data['data']['slug'] . '.txt')) {
-        File::open($file)->renameTo($new_data['data']['slug'] . '.txt');
-    }
+// Delete file on article/page destruct
+Weapon::add(array('on_article_destruct', 'on_page_destruct'), function($G, $P) use($segment) {
+    $G = $G['data']['slug'];
+    $P = $P['data']['slug'];
+    File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $G . '.txt')->delete();
 });
 
-// Delete file on article destruct
-Weapon::add('on_article_destruct', function($old_data, $new_data) {
-    File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'article' . DS . $old_data['data']['slug'] . '.txt')->delete();
-});
-
-// Delete file on page destruct
-Weapon::add('on_page_destruct', function($old_data, $new_data) {
-    File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'page' . DS . $old_data['data']['slug'] . '.txt')->delete();
-});
-
-// Show total page views in article manager page
-Weapon::add('article_footer', function($article) {
-    $total = (int) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'article' . DS . $article->slug . '.txt')->read(0);
-    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
-}, 10);
-
-// Show total page views in page manager page
-Weapon::add('page_footer', function($page) {
-    $total = (int) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . 'page' . DS . $page->slug . '.txt')->read(0);
-    echo '<span title="' . $total . ' ' . Config::speak('plugin_page_views_title_views') . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
+// Show total page views in article/page manager page
+Weapon::add(array('article_footer', 'page_footer'), function($post) use($speak, $segment) {
+    $total = (int) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $post->slug . '.txt')->read(0);
+    echo '<span title="' . $total . ' ' . $speak->plugin_page_views_title_views . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
 }, 10);
 
 

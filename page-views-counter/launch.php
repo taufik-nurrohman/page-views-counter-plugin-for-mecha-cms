@@ -35,7 +35,7 @@ Widget::add('pageViews', function($slug = "", $text = null) use($speak, $page_vi
     if(is_null($text)) $text = $speak->plugin_page_views_title_views;
     $ranges = (int) $page_views_config['ranges'];
     $slug = str_replace(array(DS, ':'), array(DS . '__', '--'), File::path($slug));
-    if(Mecha::walk(array('article', 'index', 'tag', 'archive', 'search', 'home'))->has($config->page_type)) {
+    if(Mecha::walk(array('article', 'index', 'tag', 'archive', 'search', ""))->has($config->page_type)) {
         $path = 'posts' . DS . 'article' . DS . $slug . '.txt';
     } else if($config->page_type === 'page') {
         $path = 'posts' . DS . 'page' . DS . $slug . '.txt';

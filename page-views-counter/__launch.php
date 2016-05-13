@@ -1,36 +1,30 @@
 <?php
 
-// Rename file on article/page slug change
-Weapon::add(array('on_article_update', 'on_page_update'), function($G, $P) use($segment) {
-    $G = $G['data']['slug'];
-    $P = $P['data']['slug'];
-    if($P !== $G && $file = File::exist(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $G . '.txt')) {
-        File::open($file)->renameTo($P . '.txt');
-    }
-});
-
-// Delete file on article/page destruct
-Weapon::add(array('on_article_destruct', 'on_page_destruct'), function($G, $P) use($segment) {
-    $G = $G['data']['slug'];
-    $P = $P['data']['slug'];
-    File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $G . '.txt')->delete();
-});
-
-// Show total page views in article/page manager page
-Weapon::add(array('article_footer', 'page_footer'), function($post) use($speak, $segment) {
-    $total = (int) File::open(__DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS . $segment . DS . $post->slug . '.txt')->read(0);
-    echo '<span title="' . $total . ' ' . $speak->plugin_page_views_title_views . '">' . Jot::icon('eye') . ' ' . $total . '</span> &middot; ';
-}, 10);
-
-
-/**
- * Create Backup
- * -------------
- */
+$r = __DIR__ . DS . 'assets' . DS . 'lot' . DS . 'posts' . DS;
+foreach(glob(POST . DS . '*', GLOB_NOSORT | GLOB_ONLYDIR) as $v) {
+    $v = File::B($v);
+    // Rename file on post slug change
+    Weapon::add('on_' . $v . '_update', function($G, $P) use($v, $r) {
+        $a = $G['data']['slug'];
+        $b = $G['data']['slug'];
+        if($a !== $b && $log = File::exist($r . $v . DS . $a . '.txt')) {
+            File::open($log)->renameTo($b . '.txt');
+        }
+    });
+    // Delete file on post destruct
+    Weapon::add('on_' . $v . '_destruct', function($G, $P) use($v, $r) {
+        File::open($r . $v . DS . $G['data']['slug'] . '.txt')->delete();
+    });
+    // Show total page view(s) in post manager page
+    Weapon::add($v . '_footer', function($post) use($speak, $v, $r) {
+        $count = (int) File::open($r . $v . DS . $post->slug . '.txt')->read(0);
+        echo '<span title="' . $count . ' ' . $speak->plugin_page_views->title->views . '">' . Jot::icon('eye') . ' ' . $count . '</span> &middot; ';
+    }, 10);
+}
 
 if(Plugin::exist('backup')) {
-    Route::accept($config->manager->slug . '/plugin/' . File::B(__DIR__) . '/backup', function() use($config) {
-        $name = Text::parse($config->title, '->slug') . '.lot.plugins.' . File::B(__DIR__) . '.assets.lot_' . date('Y-m-d-H-i-s') . '.zip';
+    Route::accept($config->manager->slug . '/plugin/(' . File::B(__DIR__) . ')/backup', function($s = "") use($config) {
+        $name = Text::parse($config->title, '->slug') . '.lot.plugins.' . $s . '.assets.lot_' . date('Y-m-d-H-i-s') . '.zip';
         Package::take(__DIR__ . DS . 'assets' . DS . 'lot')->pack(ROOT . DS . $name);
         Guardian::kick($config->manager->slug . '/backup/send:' . $name);
     });
@@ -42,14 +36,7 @@ if(Plugin::exist('backup')) {
  * --------------
  */
 
-Route::accept($config->manager->slug . '/plugin/' . File::B(__DIR__) . '/update', function() use($config, $speak) {
-    if($request = Request::post()) {
-        Guardian::checkToken($request['token']);
-        File::write($request['css'])->saveTo(__DIR__ . DS . 'assets' . DS . 'shell' . DS . 'counter.css');
-        unset($request['token']); // Remove token from request array
-        unset($request['css']); // Remove CSS from request array
-        File::serialize($request)->saveTo(__DIR__ . DS . 'states' . DS . 'config.txt', 0600);
-        Notify::success(Config::speak('notify_success_updated', $speak->plugin));
-        Guardian::kick(File::D($config->url_current));
-    }
+Route::over($config->manager->slug . '/plugin/' . File::B(__DIR__) . '/update', function() use($config, $speak) {
+    File::write(Request::post('css'))->saveTo(__DIR__ . DS . 'assets' . DS . 'shell' . DS . 'page-views.css');
+    unset($_POST['css']);
 });

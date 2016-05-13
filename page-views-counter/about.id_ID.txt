@@ -1,7 +1,7 @@
 Title: Penghitung Tayangan Halaman
 Author: Taufik Nurrohman
 URL: http://latitudu.com
-Version: 1.3.0
+Version: 1.4.0
 
 ====
 
@@ -9,7 +9,7 @@ Version: 1.3.0
 
 Penayangan halaman Anda tidak akan dihitung jika Anda sedang masuk (_logged in_).
 
-Bidang _Rentang_ digunakan untuk menambahkan awalan berupa angka nol sebanyak nilai yang dicantumkan di dalam bidang tersebut. Jika sebelumnya statistik penayangan halaman menunjukkan angka **35 Penayangan**, maka setelah Anda memasukkan angka `5` ke dalam bidang tersebut, statistik penayangan halaman akan berubah menjadi **00035 Penayangan**.
+Bidang _Rentang_ digunakan untuk menambahkan awalan berupa angka nol sebanyak nilai yang dicantumkan di dalam bidang tersebut. Jika sebelumnya statistik penayangan halaman menunjukkan angka **_35 Penayangan_**, maka setelah Anda memasukkan angka `5` ke dalam bidang tersebut, statistik penayangan halaman akan berubah menjadi **_00035 Penayangan_**.
 
 #### Pemasangan Widget
 
@@ -59,7 +59,7 @@ Sekarang Anda bisa menampilkan data statistik tayangan halaman Anda yang tersimp
 echo Widget::pageViews('2015/02/10/slug-halaman', 'Penayangan');
 ~~~
 
-Plugin ini akan secara otomatis menyimpan data-data statistik tayangan halaman kustom Anda (jika ada). Sebagai contoh, jika Anda memiliki halaman publik baru dengan alamat menuju ` {{url}}2015/02/10/slug-halaman `, maka plugin ini dapat secara otomatis membuatkan folder-folder baru di dalam folder `lot` untuk menyimpan data-data statistik halaman tersebut dengan cara menggunakan panduan dari URL halaman tersebut:
+Plugin ini akan secara otomatis menyimpan data-data statistik tayangan halaman kustom Anda (jika ada). Sebagai contoh, jika Anda memiliki halaman publik baru dengan alamat menuju ` {{url}}2015/02/10/slug-halaman `, maka plugin ini dapat secara otomatis membuatkan folder-folder baru di dalam folder `lot` untuk menyimpan data-data statistik halaman tersebut dengan cara menggunakan panduan dari _path_ halaman tersebut:
 
 ~~~ .no-highlight
 lot

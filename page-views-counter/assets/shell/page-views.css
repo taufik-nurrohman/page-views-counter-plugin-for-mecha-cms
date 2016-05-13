@@ -1,0 +1,19 @@
+.page-views-counter {
+  line-height:1;
+  display:inline-block;
+  background-color:#FA9874;
+  color:white;
+  border-radius:.2em;
+  overflow:hidden;
+}
+
+.page-views-counter-count,
+.page-views-counter-label {
+  float:left;
+  padding:.5em .8em;
+}
+
+.page-views-counter-count {
+  background-color:#CE8B74;
+  font-weight:bold;
+}

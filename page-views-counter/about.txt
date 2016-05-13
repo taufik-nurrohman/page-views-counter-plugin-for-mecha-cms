@@ -1,15 +1,15 @@
 Title: Page Views Counter
 Author: Taufik Nurrohman
 URL: http://latitudu.com
-Version: 1.3.0
+Version: 1.4.0
 
 ====
 
 > This plugin will count the number of your page visits.
 
-Your page visits will not be counted if you&rsquo;re logged in.
+Your page visits will not be counted if you’re logged in.
 
-The _Ranges_ field is used to add leading zeros as much as the value specified in the field. If the previous statistic shows the number of page views as **35 Page Views**, then after you put `5` on the field, the statistic will becomes **00035 Page Views**.
+The _Range_ field is used to add leading zeros as much as the value specified in the field. If the previous statistic shows the number of page views as **_35 Views_**, then after you put `5` on the field, the statistic will becomes **_00035 Views_**.
 
 #### Widget Installation
 
@@ -59,7 +59,7 @@ Now you can display the page views statistic data that are stored in a folder ot
 echo Widget::pageViews('2015/02/10/page-slug', 'Views');
 ~~~
 
-This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address ` {{url}}2015/02/10/page-slug `, then this plugin will automatically creates new folders in the `lot` folder for storing the page views statistics by using the guidelines of the page URL:
+This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address ` {{url}}2015/02/10/page-slug `, then this plugin will automatically creates new folders in the `lot` folder to store the page views statistics by using the guidelines of the page path:
 
 ~~~ .no-highlight
 lot

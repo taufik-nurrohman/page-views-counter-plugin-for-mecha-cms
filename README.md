@@ -55,7 +55,7 @@ Now you can display the page views statistic data that are stored in a folder ot
 echo Widget::pageViews('2015/02/10/page-slug', 'Views');
 ~~~
 
-This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address ` {{url}}2015/02/10/page-slug `, then this plugin will automatically creates new folders in the `lot` folder to store the page views statistics by using the guidelines of the page path:
+This plugin will automatically stores the page views data of your custom pages (if any). For example, if you have a new public page with address `http://example.com/2015/02/10/page-slug`, then this plugin will automatically creates new folders in the `lot` folder to store the page views statistics by using the guidelines of the page path:
 
 ~~~ .no-highlight
 lot
